@@ -1,0 +1,40 @@
+package com.news.expandMenu.test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.news.expandMenu.bean.FileBean;
+
+
+public class InitData {
+	private static List<FileBean> mDatas;
+	public static List<FileBean> initDatas() {
+		mDatas = new ArrayList<FileBean>();
+		FileBean bean = new FileBean(1, 0, "专题栏目");
+		mDatas.add(bean);
+		bean = new FileBean(2, 0, "领导讲话");
+		mDatas.add(bean);
+		bean = new FileBean(3, 0, "外挂栏目");
+		mDatas.add(bean);
+		bean = new FileBean(4, 1, "党的群众路线");
+		mDatas.add(bean);
+		bean = new FileBean(5, 1, "全国海关金关科技");
+		mDatas.add(bean);
+		bean = new FileBean(6, 1, "党的十二五规划");
+		mDatas.add(bean);
+		bean = new FileBean(7, 1, "党的十八届代表大会");
+		mDatas.add(bean);
+		bean = new FileBean(8, 1, "国庆专题");
+		mDatas.add(bean);
+		bean = new FileBean(9, 2, "总署领导讲话与批示");
+		mDatas.add(bean);
+		bean = new FileBean(10,2, "司领导讲话与批示");
+		mDatas.add(bean);
+		bean = new FileBean(11,2, "各关领导讲话与批示");
+		mDatas.add(bean);
+		bean = new FileBean(12,3, "检查署");
+		mDatas.add(bean);
+		
+		return mDatas;
+	}
+}

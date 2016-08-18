@@ -1,0 +1,9 @@
+package com.news.http;
+
+/**
+ * @author ZYY
+ * 这里面的方法是用来处理与服务器相关的业务逻辑的
+ */
+public class HttpUtils {
+	
+}

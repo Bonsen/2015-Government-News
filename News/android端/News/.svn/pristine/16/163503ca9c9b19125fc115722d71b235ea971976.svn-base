@@ -1,0 +1,103 @@
+package com.news.data.news;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+
+import com.news.DB.NewsDetailDB;
+import com.news.content.bean.NewsContentBean;
+
+public class DataProvider {
+
+	private static NewsDetailDB dop;
+
+	// 返回所有的新闻
+	public static List<Map<String, Object>> showNewsList(Context context) {
+
+		SharedPreferences sharedPreferences = context.getSharedPreferences(
+				"ShareData", Context.MODE_PRIVATE);
+		String pColumn = sharedPreferences.getString("pColumn", "");
+		String cColumn = sharedPreferences.getString("cColumn", "");
+		String author = sharedPreferences.getString("author", "");
+		
+		// 用来存放所有的person数据
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		// 创建或打开数据库
+		dop = new NewsDetailDB(context);
+		Cursor cursor = dop.QueryByColumn(pColumn, cColumn,author);
+		// 获得数据库表列的数目
+		int columns = cursor.getColumnCount();
+		// System.out.println("columns is : " + columns);
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			for (int i = 0; i < columns; i++) {
+				String cols_name = cursor.getColumnName(i);
+				String cols_value = cursor.getString(cursor
+						.getColumnIndex(cols_name));
+				if (cols_value == null) {
+					cols_value = "";
+				}
+				map.put(cols_name, cols_value);
+			}
+			listMap.add(map);
+		}
+		dop.CloseDb();
+		return listMap;
+	}
+
+	// 根据id返回一条新闻,这里可能没有这么简单id可能不能作为主键
+	public static NewsContentBean showNews(int id) {
+
+		System.out.println("id is : " + id);
+		NewsContentBean newsContentBean = new NewsContentBean();
+		Cursor cursor = dop.QueryByNewsId(id);
+		cursor.moveToFirst();
+		newsContentBean.setContent(cursor.getString(cursor
+				.getColumnIndex("context")));
+		newsContentBean.setAuthor(cursor.getString(cursor
+				.getColumnIndex("author")));
+		newsContentBean
+				.setTime(cursor.getString(cursor.getColumnIndex("time")));
+		newsContentBean.setTitle(cursor.getString(cursor
+				.getColumnIndex("title")));
+		newsContentBean.setStatus(cursor.getString(cursor
+				.getColumnIndex("status")));
+		newsContentBean.setcColumn(cursor.getString(cursor
+				.getColumnIndex("cColumn")));
+		newsContentBean.setpColumn(cursor.getString(cursor
+				.getColumnIndex("pColumn")));
+		newsContentBean.setId(Integer.parseInt(cursor.getString(cursor
+				.getColumnIndex("id"))));
+		dop.CloseDb();
+		return newsContentBean;
+	}
+
+	public static List<Map<String, Object>> showSearchNewsList(Context context,String startTime,String endTime,String keyWord) {
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		dop = new NewsDetailDB(context);
+		Cursor cursor = dop.Search(startTime, endTime, keyWord);
+		// 获得数据库表列的数目
+		int columns = cursor.getColumnCount();
+		// System.out.println("columns is : " + columns);
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			for (int i = 0; i < columns; i++) {
+				String cols_name = cursor.getColumnName(i);
+				String cols_value = cursor.getString(cursor
+						.getColumnIndex(cols_name));
+				if (cols_value == null) {
+					cols_value = "";
+				}
+				map.put(cols_name, cols_value);
+			}
+			listMap.add(map);
+		}
+		dop.CloseDb();
+		return listMap;
+	}
+}

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320px"
+    android:layout_height="150px"
+    android:layout_gravity="center"
+    android:orientation="vertical"  
+    android:background="#ffffff" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择操作:"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="20px"
+            android:layout_marginBottom="15px" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50px"
+            android:text="编辑" 
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:background="#5689DD"
+            android:layout_marginLeft="20px" />
+
+        <Button
+            android:id="@+id/delButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50px"
+            android:background="#5689DD"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:layout_marginLeft="20px" />
+
+    </LinearLayout>
+    
+
+</LinearLayout>

@@ -1,0 +1,143 @@
+package com.news.expandMenu.bo;
+
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.news.R;
+import com.news.content.bo.ContentFragment;
+import com.news.expandMenu.bean.FileBean;
+import com.news.expandMenu.bo.adapter.SimpleTreeListViewAdapter;
+import com.news.expandMenu.bo.treeviewutils.Node;
+import com.news.expandMenu.bo.treeviewutils.adapter.TreeListViewAdapter.OnTreeNodeClickListener;
+import com.news.expandMenu.test.InitData;
+
+@SuppressLint({ "NewApi", "ResourceAsColor" })
+public class TreeMenuFragment extends Fragment {
+
+	private ListView mTree;
+	private SimpleTreeListViewAdapter<FileBean> mAdapter;
+	private List<FileBean> mDatas;
+	private int last_item = -1;
+	private RelativeLayout oldView;
+	TextView textView;
+	TextView textView2;
+	ImageView imageViewicon;
+	ImageView imageViewicon2;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_treemenufragment,
+				container, false);
+		mTree = (ListView) view.findViewById(R.id.id_listview);
+		mTree.setDividerHeight(0);
+		mDatas = InitData.initDatas();
+		// 将栏目名称保存到共享文件中去
+		SharedPreferences sharedPreference = getActivity()
+				.getSharedPreferences("ShareData", Context.MODE_PRIVATE);
+		// 对数据进行编辑
+		SharedPreferences.Editor editor = sharedPreference.edit();
+
+		//所有目录都是二级目录，将第一级目录保存
+		editor.putString("pColumn", mDatas.get(0).getLabel());
+		// 将第二级目录保存
+		if (mDatas != null) {
+			FileBean fileBean = mDatas.get(0);
+			// 找到第一个叶子节点
+			for (int i = 1; i < mDatas.size(); i++) {
+				if (fileBean.getId() == mDatas.get(i).getpId()) {
+					fileBean = mDatas.get(i);
+					break;
+				}
+			}
+			editor.putString("cColumn", fileBean.getLabel());
+			// 将数据持久化到存储介质中
+			editor.commit();
+		}
+		try {
+			// 设置适配器
+			mAdapter = new SimpleTreeListViewAdapter<FileBean>(mTree,
+					getActivity(), mDatas, 0);
+			mTree.setAdapter(mAdapter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		initEvent();
+
+		return view;
+	}
+	private void initEvent() {
+		mAdapter.setOnTreeNodeClickListener(new OnTreeNodeClickListener() {
+			@SuppressLint("CommitTransaction")
+			@Override
+			public void onClick(Node node, int position, View view) {
+				RelativeLayout item = (RelativeLayout) view;
+				// 将栏目名称保存到共享文件中去
+				SharedPreferences sharedPreference = getActivity()
+						.getSharedPreferences("ShareData", Context.MODE_PRIVATE);
+				// 对数据进行编辑
+				SharedPreferences.Editor editor = sharedPreference.edit();
+				//如果是叶子节点
+				if(node.isLeaf())
+				{
+					editor.putString("pColumn", node.getParent().getName());
+					editor.putString("cColumn", node.getName());
+				}
+				else//是根节点
+				{
+					editor.putString("pColumn", node.getName());
+					editor.putString("cColumn", Node.FindLeafNode(node).getName());
+				}
+				// 将数据持久化到存储介质中
+				editor.commit();
+				textView = (TextView) item.findViewById(R.id.id_item_text);
+				textView.setTextColor(getResources().getColor(
+						R.color.expandmenutextchoisecolor));
+				item.setBackgroundResource(R.drawable.expandmenu_item_bg);// 把当前选中的条目加上选中效果
+				imageViewicon = (ImageView) item.findViewById(R.id.imglabel);
+				imageViewicon.setImageResource(R.drawable.expandlabel_blue);
+				if (last_item != -1 && last_item != position) {// 如果已经单击过条目并且上次保存的item位置和当前位置不同
+					oldView.setBackgroundResource(R.color.expandinitcolor);// 把上次选中的样式去掉
+					// 设置文字颜色
+					textView2 = (TextView) oldView
+							.findViewById(R.id.id_item_text);
+					textView2.setTextColor(getResources().getColor(
+							R.color.expandmenutextcolor));
+					// 设置label颜色
+					imageViewicon2 = (ImageView) oldView
+							.findViewById(R.id.imglabel);
+					imageViewicon2.setImageResource((R.drawable.expandlabel));
+				}
+				oldView = item;// 把当前的条目保存下来
+				last_item = position;// 把当前的位置保存下来
+				String title_name = node.getName();
+
+				ContentFragment contentFragment = new ContentFragment();
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction();
+				transaction.replace(R.id.fragment_right, contentFragment,
+						"contentFragment");
+				Bundle bundle = new Bundle();
+				bundle.putString("title_name", title_name);
+				contentFragment.setArguments(bundle);
+				transaction.commit();
+			}
+		});
+	}
+}

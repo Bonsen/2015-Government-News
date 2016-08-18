@@ -1,0 +1,145 @@
+package com.news.main.activity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import com.example.news.R;
+import com.news.addNews.activity.AddActivity;
+import com.news.content.bo.ContentFragment;
+import com.news.search.activity.SearchActivity;
+import com.news.expandMenu.bo.TreeMenuFragment;
+import com.news.content.test.TestContentFragment;
+
+@SuppressLint("NewApi")
+public class MainActivity extends Activity implements OnClickListener {
+
+	private Button home;
+	private Button check;
+	private Button search;
+	private Button add;
+	private ContentFragment cf;
+	private TreeMenuFragment tmf;
+	private TestContentFragment tcf;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_main);
+		home = (Button) findViewById(R.id.home);
+		check = (Button) findViewById(R.id.check);
+		search = (Button) findViewById(R.id.search);
+		add = (Button) findViewById(R.id.add);
+		home.setOnClickListener(this);
+		check.setOnClickListener(this);
+		search.setOnClickListener(this);
+		add.setOnClickListener(this);
+		
+		SharedPreferences sharedPreference = getApplication()
+				.getSharedPreferences("ShareData", Context.MODE_PRIVATE);
+		// 对数据进行编辑
+		SharedPreferences.Editor editor = sharedPreference.edit();
+		editor.putString("author", "admin");
+		editor.commit();
+		setDefaultFragment();
+	}
+
+	//通过这个方法对列表进行刷新
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Intent searchIntent=getIntent();
+		System.out.println("onresume");
+		// 当这里再次刷新的时候需要对栏目的表进行
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		try {
+			Bundle bundle = new Bundle();
+			if(searchIntent!=null)
+			{
+				if(searchIntent.getStringExtra("search")!=null)
+				{
+					System.out.println("--------->>");
+					bundle.putString("search", searchIntent.getStringExtra("search"));
+					bundle.putString("startTime", searchIntent.getStringExtra("startTime"));
+					bundle.putString("endTime", searchIntent.getStringExtra("endTime"));
+					bundle.putString("keyWord", searchIntent.getStringExtra("keyWord"));
+					System.out.println("search is : "+searchIntent.getStringExtra("search"));
+					System.out.println("startTime is : "+searchIntent.getStringExtra("startTime"));
+					System.out.println("endTime is : "+searchIntent.getStringExtra("endTime"));
+					System.out.println("keyWord is : "+searchIntent.getStringExtra("keyWord"));
+					System.out.println("--------->>");
+				}
+			}
+			cf = new ContentFragment();
+			cf.setArguments(bundle);
+			ft.replace(R.id.fragment_right, cf);
+			ft.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setDefaultFragment() {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		tmf = new TreeMenuFragment();
+		cf = new ContentFragment();
+		ft.replace(R.id.fragment_middle, tmf);
+		ft.replace(R.id.fragment_right, cf);
+		ft.commit();
+	}
+
+	@Override
+	public void onClick(View v) {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		switch (v.getId()) {
+
+		case R.id.home:
+			tmf = new TreeMenuFragment();
+			ft.replace(R.id.fragment_middle, tmf);
+			cf = new ContentFragment();
+			ft.replace(R.id.fragment_right, cf);
+			ft.commit();
+			break;
+
+		case R.id.check:
+			tmf = new TreeMenuFragment();
+			tcf = new TestContentFragment();
+			ft.replace(R.id.fragment_middle, tmf);
+			ft.replace(R.id.fragment_right, tcf);
+			ft.commit();
+			break;
+		case R.id.search:
+			//搜索的跳转
+			Intent searchIntent =new Intent(MainActivity.this,SearchActivity.class);
+			startActivity(searchIntent);
+			break;
+		case R.id.add:
+			Intent intent = new Intent(MainActivity.this, AddActivity.class);
+			intent.putExtra("editModel", "newsAdd");
+			startActivity(intent);
+			break;
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		System.out.println("调用onStart方法");
+		super.onStart();
+	}
+
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="expandinitcolor">#f7f5f6</color>
+   <color name="blue">#5DA4FF</color> 
+      <color name="grey">#BBBBBB</color> 
+      <color name="blue2">#4F84DA</color>
+      <color name="transparent">#0000</color> <!-- 用于透明Activity -->
+      <color name="expandmenutextcolor">#a5a5a5</color>
+      <color name="expandmenutextchoisecolor">#63a8ff</color>
+       <color name="white">#ffffff</color>
+      <color name="gray">#d1d1d1</color>
+</resources>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#578add"
+    android:orientation="vertical" >
+
+    <!-- 这里用来放置软件快捷键，会控制中间以及左边模块 -->
+<!-- 第一个按钮home********************************************************* -->
+    <Button
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="1px"
+        android:id="@+id/home"
+        android:layout_width="72px"
+        android:layout_height="68px"
+        android:background="@drawable/home_white" />
+<!-- 第二个Button审核************************************************************** -->
+
+    
+    <Button
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="3px"
+        android:id="@+id/check"
+        android:layout_width="68px"
+        android:layout_height="54px"
+        android:background="@drawable/check_white"/>
+     
+	<TextView 
+    	android:id="@+id/checktext"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:paddingLeft="20px"
+    	android:paddingTop="5px"
+    	android:text="审核"
+    	android:textSize="20px"
+    	android:textColor="@color/white"/>
+    
+
+<!-- 第三个Button搜索************************************************************** -->
+
+    
+
+    <Button
+        android:layout_marginTop="40px"
+        android:id="@+id/search"
+        android:layout_width="71px"
+        android:layout_height="52px"
+        android:background="@drawable/search_white"
+        />
+      
+<TextView 
+    	android:id="@+id/searchtext"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="搜索"
+    	android:paddingLeft="20px"
+    	
+    	android:textSize="20px"
+    	android:textColor="@color/white"
+   		/>
+  
+
+ <!-- 第四个Button添加************************************************************** -->
+
+    <Button
+       
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="1px"
+        android:id="@+id/add"
+        android:layout_width="72px"
+        android:layout_height="50px"
+        android:background="@drawable/add_white"
+       />
+   
+    <TextView 
+    	android:id="@+id/addtext"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:paddingTop="5px"
+    	android:paddingLeft="20px"
+    	android:text="添加"
+    	android:textSize="20px"
+    	android:textColor="@color/white"
+   		/>
+   	
+    
+     <!-- 第五个Button设置************************************************************** -->
+
+    <Button
+        android:layout_marginLeft="5px"
+        android:layout_marginTop="40px"
+        android:id="@+id/set"
+        android:layout_width="66px"
+        android:layout_height="56px"
+        android:background="@drawable/set_white"
+        
+        />
+    
+    <TextView 
+    	android:id="@+id/settext"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="设置"
+    	android:paddingTop="5px"
+    	android:paddingLeft="20px"
+    	android:paddingRight="5px"
+    	android:textSize="20px"
+    	android:textColor="@color/white"
+   		/>
+
+</LinearLayout>

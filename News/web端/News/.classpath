@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_6_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="C:/Users/ZYY/Desktop/毕设/开发材料/jar包/JDBC/mysql-connector-java-5.0.7-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ZYY/Desktop/毕设/开发材料/jar包/json/commons-beanutils-1.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ZYY/Desktop/毕设/开发材料/jar包/json/commons-lang.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ZYY/Desktop/毕设/开发材料/jar包/json/ezmorph.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ZYY/Desktop/毕设/开发材料/jar包/json/json-lib-2.2.2-jdk15.jar"/>
+	<classpathentry kind="lib" path="/jsonProject3/WebRoot/WEB-INF/lib/json-lib-2.2.2-jdk15.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/javaweb/myeclipse/uploadImage/WebRoot/WEB-INF/lib/json.jar"/>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+</classpath>

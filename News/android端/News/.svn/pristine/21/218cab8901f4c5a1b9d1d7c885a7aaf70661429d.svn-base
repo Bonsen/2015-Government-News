@@ -1,0 +1,70 @@
+package com.news.login.activity;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.news.R;
+import com.news.DB.NewsUserDB;
+import com.news.main.activity.MainActivity;
+
+public class LoginActivity extends Activity {
+
+	private TextView tv_name;
+	private TextView tv_password;
+	private TextView tv_status;
+	private Button loginButton;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		tv_name = (TextView) findViewById(R.id.name);
+		tv_password = (TextView) findViewById(R.id.password);
+		loginButton = (Button) findViewById(R.id.loginButton);
+		loginButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (tv_name.getText().equals("") || tv_password.equals("")
+						|| tv_status.equals("")) {
+					return;
+				}
+				NewsUserDB db = new NewsUserDB(LoginActivity.this);
+				int status = Integer.parseInt(tv_status.getText().toString());
+				db.InsertDb( tv_name.getText().toString(), status,
+						tv_password.getText().toString());
+				SharedPreferences sharedPreference = getApplication()
+						.getSharedPreferences("ShareData", Context.MODE_PRIVATE);
+				// 对数据进行编辑
+				SharedPreferences.Editor editor = sharedPreference.edit();
+
+				if (status == 0) {
+					editor.putString("UserStatus", "用户");
+				}
+				if (status == 1) {
+					editor.putString("UserStatus", "管理员");
+				}
+				if(tv_name.getText().toString()!=null)
+				{ 
+					editor.putString("user", tv_name.getText().toString());
+				} 
+				else
+				{
+					editor.putString("user", "admin");
+				}
+				editor.commit();
+				Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+}

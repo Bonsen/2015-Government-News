@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="115px"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_news_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40px"
+        android:layout_marginTop="20px" >
+
+        <TextView
+            android:id="@+id/news_title"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60px"
+            android:text="1"
+            android:textSize="23px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5px" >
+
+        <TextView
+            android:id="@+id/news_time"
+            android:layout_width="130px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60px"
+            android:text=""
+            android:textColor="@color/blue"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/news_thumbnail_content"
+            android:layout_width="520px"
+            android:layout_height="match_parent"
+            android:text="3"
+            android:textColor="@color/grey"
+            android:textSize="22px" />
+
+        <Button
+            android:id="@+id/checkbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="40px"
+            android:background="@drawable/transparent"
+            android:text="待审"
+            android:textColor="@color/blue"
+            android:textSize="20px" />
+    </LinearLayout>
+
+</LinearLayout>

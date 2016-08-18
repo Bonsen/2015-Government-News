@@ -1,0 +1,84 @@
+package com.news.http;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import com.news.code.NewsCode;
+
+import android.content.Context;
+import android.widget.Toast;
+
+/**
+ * @author ZYY 这里面的方法是用来处理与服务器相关的业务逻辑的
+ */
+
+public class HttpUtils {
+
+	private static Context context;
+
+	// 添加新闻服务器
+	public static int AddNews(String url, String JsonString) throws IOException {
+
+		// TODO Auto-generated method stub
+		URL httpUrl = new URL(url);
+		// 建立http连接
+		HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+		conn.setReadTimeout(5000);
+		conn.setRequestMethod("POST");
+		conn.setDoOutput(true);
+		String content = String.valueOf(JsonString);
+		OutputStream os = conn.getOutputStream();
+		// 将数据转化成为字节数组
+		os.write(content.getBytes());
+		os.close();
+		int code = conn.getResponseCode();
+
+		if (code == 200) {
+			return NewsCode.SUCCESS;
+		} else {
+			Toast.makeText(context, "数据提交失败", Toast.LENGTH_SHORT).show();
+			return NewsCode.FAIL;
+		}
+	}
+
+	// 获得服务器端传过来的所有新闻数据
+	public static String GetNews(String url_path,String JsonString) {
+		try {
+			URL url = new URL(url_path);// 统一资源定位符
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setConnectTimeout(3000);
+			connection.setRequestMethod("POST");
+			connection.setDoInput(true);
+			int code = connection.getResponseCode();
+			if (code == 200) {
+				return changeInputStream(connection.getInputStream());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "";
+	}
+
+	// 将读来的数据写到缓存中去然后将缓存中的数组转化成为String，byte数组是在缓存中开辟的数组
+	private static String changeInputStream(InputStream inputStream) {
+		// TODO Auto-generated method stub
+		String jsonString = "";
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();// 将字节写入缓存中
+		int len = 0;
+		byte[] data = new byte[1024];
+		try {
+			while ((len = inputStream.read(data)) != -1) {
+				outputStream.write(data, 0, len);
+			}
+			jsonString = new String(outputStream.toByteArray());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+}

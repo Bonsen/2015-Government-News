@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   <!-- 这是其中最简单的一个布局，用来查询 -->
+   <TextView 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="好吧我承认，这里是搜索界面"/>
+   
+   <Button
+       android:id="@+id/searchButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="SearchButton"
+       />
+</LinearLayout>
